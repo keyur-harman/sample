@@ -1,0 +1,71 @@
+----------------------------------------- set up local docker repository -------------------------------------------
+
+There are two way to setup local repository
+
+Option 1:: With docker run command
+
+1. setup local registry image and run on docker, execute below command, where you can change you imagename as well.
+   docker run -d -p 50000:5000 --restart always --name my-registry registry:latest
+
+2. To verify setup, Go to browser and check http://localhost:50000/v2/_catalog
+   This will return output like this
+
+       {"repositories":[]}
+
+
+Option 2:: With docker-compose
+
+
+1. install docker-compose
+   sudo apt-get install docker-compose
+
+2. Create folder on disk name as "Infrastructure", inside Infrastructer create folder name as "Registry"
+
+3. Creat file "docker-compose.yml" inside the Registry folder and add below data
+
+==file data start from below line==
+  
+version: '3.0'
+ 
+services:
+  my-registry:
+    image: registry:latest
+    container_name: my-registry
+    volumes:
+      - registry:/var/lib/registry
+    ports:
+      - "50000:5000"
+    restart: unless-stopped
+volumes:
+  registry:
+
+==file data end on above line==
+
+4. Now open termial and go to path ../Infrastructure/Registry/, this is the path where we have stored our docker-compose.yml file.
+   Execute belwo command
+   docker-compose up -d
+
+5. To verify setup, Go to browser and check http://localhost:50000/v2/_catalog
+   This will return output like this
+
+       {"repositories":[]}
+
+------------------------------- Push docker image to local repository ------------------------------- 
+
+1. To push docker image to local repository, first need to tag it appropriate.
+   Below is the command to tag the docker image
+
+   docker tag spring-boot-demo-two localhost:50000/localrepouser/spring-boot-demo-two:latest
+
+2. Once tagging is done, then push the image to local repo
+
+    docker push localhost:50000/localrepouser/spring-boot-demo-two
+
+3. Now open http://localhost:50000/v2/_catalog
+   which will return output like this
+
+    repositories	
+        0	"localrepouser/spring-boot-demo-two"
+		
+-------------
+Ref : https://code-maze.com/docker-hub-vs-creating-docker-registry/

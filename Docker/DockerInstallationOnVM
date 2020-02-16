@@ -1,0 +1,52 @@
+Docker installation on virtual box
+
+1. Install virtual box
+   Download for windows host : https://download.virtualbox.org/virtualbox/6.0.10/VirtualBox-6.0.10-132072-Win.exe
+
+
+2. Install Linux mint os on virtual box.
+   Download : https://linuxmint.com/edition.php?id=263
+   
+3. Once OS is isnatlled,start the machine, and execute below two command first in the terminal
+   sudo apt-get update
+   sudo apt-get upgrade
+  
+4. if encouter with Depackaging(dpkg) error, then run follwing command.
+   sudo dpkg --configure -a
+   
+5. Install docker 
+	https://linuxconfig.org/how-to-install-docker-on-ubuntu-18-04-bionic-beaver
+  
+  sudo apt install docker.io
+   
+  
+   sudo systemctl start docker
+   sudo systemctl enable docker
+   
+6. Verify installation
+   docker --version
+
+
+
+Useful docker command
+
+1. List of docker images
+  - docker images : display all the images
+  
+2. Check running processes
+   docker ps : this will list down only running process
+   dcoker ps -a : this will list down all the processes
+   
+3. stop docker container
+   docker stop "container_id"
+
+4. start docker container
+   docker stop "container_id"
+
+5. Remove docker container
+   docker rm "container_id"
+
+6. Remove docker image
+   docker rmi "docker_image_name/tag"
+
+

@@ -1,0 +1,44 @@
+Setup WSO2 On windows With H2 Database
+- Downlaod the WSO2 Identity Server Setup.
+- Install the WSO2 Identity Server using the msi setup downloaded.
+- Goto the installation directory of the WSO2 Identity Server and create the directory "tmp" e.g "C:\Program Files\WSO2\Identity Server\5.6.0\tmp"
+- Open command prompt and navigate to the bin directory of WSO Identity server e.g "C:\Program Files\WSO2\Identity Server\5.6.0\bin"
+- Execute the bat file "wso2server.bat"
+
+
+Self Register User using admin user name as password as authentication:
+- Start the WSO2 Identity Server.
+- Open browser and Navigate to the WSO2 Identity servier console. "https://localhost:9443/carbon/" and login with admin/admin
+- Navigate to menu "Main -> Identity Providers -> Resident -> Account management Policies -> User Self Registration" and select "Enable Self User Registration" check box.. and save changes
+- Use the Authorization Header with basic token as "Authorization: Basic YWRtaW46YWRtaW4=" to indicate basic authentication with user name and password as "admin"
+- Invoke the rest call like 
+	curl -X POST -H "Authorization: Basic YWRtaW46YWRtaW4=" -H "Content-Type: application/json" -d '{"user": {"username": "kim","realm": "PRIMARY", "password": "Password1!","claims": [{"uri": "http://wso2.org/claims/givenname","value": "kim" },{"uri": "http://wso2.org/claims/emailaddress","value": "kim.anderson@gmail.com"},{"uri": "http://wso2.org/claims/lastname","value": "Anderson"},{"uri": "http://wso2.org/claims/mobile","value": "+947721584558"} ] },"properties": []}' "https://localhost:9443/api/identity/user/v1.0/me"
+- Response should be 201 Created
+
+
+Self Register User using Service provider:
+	Create Service Provider:
+		- Start the WSO2 Identity Server.
+		- Open browser and Navigate to the WSO2 Identity servier console. "https://localhost:9443/carbon/" and login with admin/admin
+		- Navigate to menu "Main -> Identity Providers -> Resident -> Account management Policies -> User Self Registration" and select "Enable Self User Registration" check box. and save changes
+		- Navigate to menu "Main -> Service Providers -> Add"
+			Provide a name (e.g TestCreateUser) and register
+		- Navigate to menu "Main -> service Providers -> List -> {TestCreate User} -> Edit -> Inbound Authentication Configuration -> OAuth/OpenID Connect Configuration -> Configure"
+			Provide a "Callback url" (e.g. http://localhost:8080/my-callbackurl).
+		Note the "OAuth Client Key" and "OAuth Client Server" values. These will be used to get the token form the server to make API calls.
+
+	Make API Call to self register user.
+		Obtain "Access Token" using the following values
+			"OAuth2 Flow" = "Client Credentials Grant"
+			"Client Identification" = {OAuth Client Key}
+			"Client Secret" = [OAuth Client Secret]
+			"Access Token URL" = https://localhost:9443/oauth2/token
+		Use the Authorization header with bearer token as Obtained in previous step like "Authorization: Bearer 20864a8a-12ed-3c89-be95-1fe090fd1544" to indicate OAuth token for the application.
+		- Invoke the rest call like 
+			curl -X POST -H "Authorization: Bearer 20864a8a-12ed-3c89-be95-1fe090fd1544" -H "Content-Type: application/json" -d '{"user": {"username": "kim","realm": "PRIMARY", "password": "Password1!","claims": [{"uri": "http://wso2.org/claims/givenname","value": "kim" },{"uri": "http://wso2.org/claims/emailaddress","value": "kim.anderson@gmail.com"},{"uri": "http://wso2.org/claims/lastname","value": "Anderson"},{"uri": "http://wso2.org/claims/mobile","value": "+947721584558"} ] },"properties": []}' "https://localhost:9443/api/identity/user/v1.0/me"
+		- Response should be 201 Created
+
+
+Create Tenent
+
+Create User in tenent

@@ -1,0 +1,99 @@
+Docker image creation,
+
+1. Run "maven clean install" to build the project and dry run the jar file whether its working fine or not.
+
+2. Create docker file on project root file and give it name "Dockerfile" only.
+
+3. Docker file consist 4 basic parameters
+   FROM          : Need to provide image name, which docker will download from docker hub.
+   ADD/COPY      : Here need to add/copy file to docker container. this will be our jar file from target folder
+   EXPOSE        : Request to expose specific port on docker container
+   ENTRYPOINT    : This will execute the jar file, Here we need to provide "java -jar " command in array formate
+
+   Example docker file.
+
+    FROM openjdk:8-jdk-alpine
+    ADD /target/spring-boot-docker-demo-1.0.jar spring-boot-docker-demo-1.0.jar 
+    EXPOSE 8085
+    ENTRYPOINT ["java","-jar","spring-boot-docker-demo-1.0.jar"]
+
+4. Once docker file is ready, then its time to create the docker image with following command.
+   docker build -t "image-name" .
+
+   Here docker build : will create the image
+        -t "image-name" : t stand for tag, so we can provide whatever name we want
+         . : dot stand for the roort folder
+
+   Example :  
+        docker build -t spring-boot-docker-demo .
+
+5. Now we can check images inside docker with below command.
+
+   docker images
+   This will provided the list of images inside the docker with required info like docker id, docker name etc.
+
+6. Now its time to run the image, with following command.
+
+   docker run -p 8086:8085 spring-boot-docker-demo
+
+    Here docker run, will run spring-boot-docker-demo image.
+    Here we can map different port on container as well
+    in example, 8086 is the docker port which we have  mapped with application port number 8085 
+
+
+Now to build docker image from pom file itself, with the help of maven plugin. This is required if you are going with CI/CD pipeline.
+
+1. Add following plugin, inside plugins tag in pom file.
+
+    <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>dockerfile-maven-plugin</artifactId>
+            <version>1.4.9</version>
+            <configuration>
+                <repository>${docker.image.prefix}/${project.artifactId}</repository>
+            </configuration>
+    </plugin>
+
+  <plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-dependency-plugin</artifactId>
+		    <executions>
+		        <execution>
+		            <id>unpack</id>
+		            <phase>package</phase>
+		            <goals>
+		                <goal>unpack</goal>
+		            </goals>
+		            <configuration>
+		                <artifactItems>
+		                    <artifactItem>
+		                        <groupId>${project.groupId}</groupId>
+		                        <artifactId>${project.artifactId}</artifactId>
+		                        <version>${project.version}</version>
+		                    </artifactItem>
+		                </artifactItems>
+		            </configuration>
+		        </execution>
+		    </executions>
+    </plugin>
+        
+2. Add entry in property file as well
+
+<docker.image.prefix>springio</docker.image.prefix>
+
+3. Run following command to build the docker file.
+
+   ./mvnw install dockerfile:build
+
+4. Once build successfully, run the docker image as explained above.
+
+
+
+To remove docker image,
+
+docker rmi "image-tag-name"
+
+Befor removing, make sure all the process associated with this image is deleted, else it will show conflict error and wont delete the image.
+
+https://stackabuse.com/dockerizing-a-spring-boot-application/
+https://spring.io/guides/gs/spring-boot-docker/

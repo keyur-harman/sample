@@ -1,0 +1,299 @@
+++++++++++++++++++++++++++++++++===============================  ELDERLY CARE =============================++++++++++++++++++++++++++
+
+ElderlyCare 
+
+Git Link
+
+1. Mobile app
+ssh://reviewbd.harman.com:29431/elderly-care-mobileapp
+
+
+
+FCM issue link
+https://github.com/evollu/react-native-fcm/issues/1062
+
+Notificatin managemnt
+ssh://inkgandhi@reviewbd.harman.com:29431/ignite-notification-management
+
+Please refer below URL
+
+http://ilplm.redbend.com/git/hivemq-image.git/
+http://ilplm.redbend.com/git/elderly-care.git
+http://ilplm.redbend.com/git/ignite-rule-management.git
+http://ilplm.redbend.com/git/ignite-geofence.git
+http://ilplm.redbend.com/git/ignite-notification-management.git
+
+http://ilplm/git/ignite-device-management.git
+
+http://ilplm/git/ignite-data-ingestion.git
+
+
+Regards,
+Pallavi
+
+
+++++++++++++++++++++++++++++++++===============================  WSO2 IS Setup and configuration =============================++++++++++++++++++++++++++
+
+WSO2 IS Setup and configuration
+
+GIT : https://reviewbd.harman.com:8464/Harman-SDP
+
+Enable communication with MYSQL DB
+
+1.  Update user-mgt.xml file
+   D:\Softy\SoftySetup\WSO2\wso2is-5.6.0\repository\conf\user-mgt.xml
+
+2. Then put mysql connector jar in this location 
+  D:\Softy\SoftySetup\WSO2\wso2is-5.6.0\repository\components\lib
+Place jar as per your mysql version
+
+3. Then create one db in mysql, and import script D:\Softy\SoftySetup\WSO2\wso2is-5.6.0\dbscripts\mysql.sql
+and D:\Softy\SoftySetup\WSO2\wso2is-5.6.0\dbscripts\identity\mysql.sql in same db
+
+Enabled Admin service API
+
+https://docs.wso2.com/display/IS560/Calling+Admin+Services
+
+Enable REST API on tenanat and super tenant level
+
+https://docs.wso2.com/display/ISCONNECTORS/Configuring+SCIM+2.0+Provisioning+Connector
+
+
+Enable Email as username
+
+https://docs.wso2.com/display/IS550/Using+Email+Address+as+the+Username
+
+Enable OAuth2.0 profile in SAML2
+
+https://docs.wso2.com/display/IS530/SAML2+Bearer+Assertion+Profile+for+OAuth+2.0+with+WSO2+Travelocity
+
+https://docs.wso2.com/display/IS560/Configuring+Sample+Application+for+Identity+Management
+
+OAuth2 scope end points
+
+https://docs.wso2.com/display/IS560/apidocs/OAuth2-scope-endpoint/index.html
+
+cutomizing permission 
+http://gknamarathna.blogspot.com/2018/01/customizing-permissions-for-wso2.html
+
+validate signature and decrypt token
+
+https://docs.wso2.com/display/IS560/Verifying+OpenID+Connect+ID+Token+Signatures
+
+https://docs.wso2.com/display/IS560/Decrypting+OpenID+Connect+Encrypted+ID+Tokens
+
+Add permission on web console
+/_system/governance/permission/HarmanSdp
+
+
+IOT SERVER
+
+https://docs.wso2.com/display/IoTS310/Creating+a+New+Device+Type+via+APIs#43c7e2cbf7394beb9a14876404462103
+
+
+WSO2 IS helpful blogs
+http://pavithramadurangi.blogspot.com/2013/09/saml-20-sso-with-wso2-is-450.html
+http://nadeeshameegoda.blogspot.com/
+http://xacmlinfo.org/2014/12/02/621/
+
+https://docs.wso2.com/display/AM220/Log+in+to+the+API+Store+using+Social+Media
+
+http://www.securityinternal.com/2017/11/using-wso2-identity-server-as-saml.html
+
+http://www.securityinternal.com/2015/04/setup-travelocitycom-sample-web-app.html
+
+https://medium.com/wso2-learning/wso2-identity-server-5-5-0-cheat-sheet-8a582f83c5fd
+
+https://mitrai.com/tech-guide/wso2-identity-server-to-create-authorisation-model-federated-users/
+
+
+gsuite.google.com
+
+https://www.yenlo.com/blog/wso2torial-self-sign-up-in-wso2-identity-server
+
+https://docs.wso2.com/display/IS500/Adding+a+Service+Provider+and+Identity+Provider+Using+Configuration+Files
+
+http://nadeeshameegoda.blogspot.com/
+
+
+++++++++++++++++++++++++++++++++===============================  SDP details =============================++++++++++++++++++++++++++
+
+
+Team site link
+ https://teamsite.harman.com/SDP
+
+Git Repo
+https://reviewbd.harman.com:8464/Harman-SDP
+
+For UTC time stamp handling please refer to the following
+https://dba.stackexchange.com/questions/20217/mysql-set-utc-time-as-default-timestamp
+
+API doc link
+https://teamsite.harman.com/SDP/Documents/Forms/TeamsiteView.aspx?RootFolder=%2FSDP%2FDocuments%2FAPI-Document&FolderCTID=0x010100ECFDBAF99FA84131B755AD79F0776D34003142E410464C734BA8AC73D900EB8D6D&View={3E1B2FD9-EEF8-4929-B355-2CFFA62D555C}&InitialTabId=Ribbon%2EDocument&VisibilityContext=WSSTabPersistence
+
+
+
+
+VM details
+
+machine name  : jenkins
+password : pass@123
+
+//-------------------------------------
+Enable Host access in mysql on linx
+
+
+Go to mysql console on linux server
+	mysql -u root -p root
+	
+select db
+	use mysql
+
+check user and host name in table
+	select user, host from user;
+
+Grant privileges on below host where IP is the private Ip of linux machine
+	GRANT ALL PRIVILEGES ON *.* TO 'root'@'10.55.76.54' IDENTIFIED BY 'root';
+
+Execute flush privileges command
+	flush privileges
+//--------------------------------------
+
+location of code on build machine
+/var/lib/jenkins/workspace/harmansdp/Organization/Organization-Server-microservices
+
+//--------------------------------------------
+
+ ng serve --port 8086 --host 10.55.76.54
+
+To test on internal server with google login,
+need to  update host file on vm
+
+127.0.0.1       localhost
+10.55.76.54 jenkinssrv
+
+update hostname of machine to host file
+
+Also need entry on local windows machine from where where will access the url
+ Access C:\Windows\System32\drivers\etc\hosts
+file and does the below entry
+10.55.76.54   jenkinssrv
+
+
+
+//-----------------------------------
+
+WSO2
+
+1. Download software
+https://wso2.com/identity-and-access-management
+2. Follow installation process
+https://docs.wso2.com/display/IS530/Installing+on+Windows
+
+Public cloud for identity server
+https://wso2.com/cloud/
+keyur21.gandhi@gmail.com/keyur@wso2
+
+https://identity.cloud.wso2.com/admin
+
+
+3. Configure REST API 
+https://docs.wso2.com/display/IS530/apidocs/self-registration/
+
+https://docs.wso2.com/display/IS530/Logging+in+to+Google+using+the+Identity+Server
+
+https://docs.wso2.com/display/IS530/Using+Email+Address+as+the+Username
+
+//===================
+
+API Gateway in java spring
+
+https://github.com/cer/event-sourcing-examples/tree/master/java-spring/api-gateway-service
+
+//=========================
+
+===============================  WSO2-IS for Harman SDP =============================
+
+WSO2-IS for Harman SDP
+
+1. Enable setup with mysql db - done
+2. Enable authentication with FB/Google - done
+3. Persist FB/Google data to db
+4. Create oauth token for further communication - done
+5. Authorization process for federated user
+    Need to assign role to the user, if user register first time.
+Bind roles to the oauth token
+6. Decrypt oauth token
+7. Communicate with new UI app - pallavi
+8. Set up API Gateway
+
+--- USER REST API LIST --
+https://docs.wso2.com/display/IS560/apidocs/SCIM2-endpoints
+before execute rest api for user, do <Property name-"SCIMEnabled">true</Property> in user-mgt.xml
+
+
+Same problem for role
+https://stackoverflow.com/questions/43917781/mapping-roles-in-jit-provisioning-wso2-is
+
+===============================  GIT COMMAND =============================
+
+Git bash command
+
+- To set git profile from command line 
+
+	git config --global user.name "keyur21.gandhi@gmail.com"
+
+	git config --global user.email "keyur21.gandhi@gmail.com"
+
+- To see git profile
+
+	git config --list
+
+	git config user.name
+	git config user.email
+
+- To clone Git repo
+
+	git clone "url with https or ssh"
+
+- To create git repo from machine
+
+	git init
+
+- To commit changes follow below process
+	First need to add file or content change in the file,
+	Once file is added then need to commit with comment
+	Then we can push these changes to the main repo
+
+
+	git add "filename"
+
+	If want to add all the files from folder then use below command
+
+	git add .
+
+- To know the status of committed and uncommited changes 
+
+	git status
+
+- To commit changes
+
+    git commit
+	
+	git commit -m "First commit" Hello.txt
+
+- Once commit is done, then push all these commit to the branch
+
+	git push -u origin master
+
+- To get updated code from the branch
+
+	git pull origin master
+
+For bash tutorial
+https://www.youtube.com/watch?v=J_Clau1bYco
+
+For GUI tutorial
+https://www.youtube.com/watch?v=ov3_CkObQm8
+
+https://sourceforge.net/projects/gitextensions/?source=typ_redirect

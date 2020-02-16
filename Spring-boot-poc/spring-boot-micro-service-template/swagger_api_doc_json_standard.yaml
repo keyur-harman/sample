@@ -1,0 +1,394 @@
+openapi: 3.0.0
+info:
+  title: "Organization Management"
+  description: "This is an API documentation for organization managment service. \n  [Find out more about organization management service](https://parallel6.atlassian.net/wiki/spaces/PROV/pages/792068410/Organization+management+Service) \n [Find out more about Provenance](https://parallel6.atlassian.net/wiki/spaces/PROV/pages/687046714/Program+Provenance)"
+  version: "1.0.0"
+  contact:
+    email: "keyur.gandhi@harman.com"
+externalDocs:
+  description: Find out more about custom response code
+  url: https://parallel6.atlassian.net/wiki/spaces/PROV/pages/779878453/Error+Codes+Draft
+servers:
+- url: http://localhost:8080/v1
+paths:
+  /organizations/type:
+    get:
+      tags:
+      - "organization"
+      summary: "Returns list of organization type"
+      description: "Returns a list all the supported types of organization. The type of organization will restrict the types of staff users that will be able to join this organization."
+      operationId: "getOrgnaizationType"
+      parameters: []
+      security:
+      - Authorization: []      
+      responses:
+        200:
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                   type: object
+                   properties:
+                        self:
+                          type: string
+                          description: "the link that generated the current response document e.g. in this case /v1/organizations/type"
+                  data:
+                   type: array
+                   items:
+                     $ref: '#/components/schemas/OrganizationType'
+        400:
+          $ref: '#/components/responses/InvalidInput'
+        401:
+          $ref: '#/components/responses/UnauthorizedAccess'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/URLNotFound'
+        405:
+          $ref: '#/components/responses/MethodNotAllowed'          
+        408:
+          $ref: '#/components/responses/RequestTimeOut'          
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceNotAvailable'                     
+  /organizations:
+    post:
+      tags:
+      - "organization"
+      summary: "Create an organization"
+      description: ""
+      operationId: "createOrganization"
+      requestBody:
+        description: Create new organization.
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/Organization'
+        required: true      
+      security:
+      - Authorization: []
+      responses:
+        201:
+          description: "successful operation"
+          content:
+            application/json:          
+              schema:
+                type: "object"
+                properties:
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        description: "the link that generated the current response document e.g. /v1/organizations/{orgnizationId}"                
+                  data:
+                    $ref: "#/components/schemas/Organization"
+        400:
+          $ref: '#/components/responses/InvalidInput'
+        401:
+          $ref: '#/components/responses/UnauthorizedAccess'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/URLNotFound'
+        405:
+          $ref: '#/components/responses/MethodNotAllowed'          
+        408:
+          $ref: '#/components/responses/RequestTimeOut'          
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceNotAvailable'
+  /organizations/{organizationId}:
+    patch:
+      tags:
+      - "organization"
+      summary: "Update an organization"
+      description: "This API helps to update name of the organization, this does not allow to update the organization type."
+      operationId: "updateOrganization"
+      security:
+      - Authorization: []      
+      parameters:
+      - name: "organizationId"
+        in: "path"
+        description: "GUID of the organization"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        description: Create new staff user.
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                        type: 
+                          type: "string"
+                          description: "Type of the object, here it is 'Organization'"
+                        attributes:
+                          type: "object"
+                          properties:
+                            name:
+                              type: "string"
+                              description: "name of the organization"
+        required: true     
+      responses:
+        200:
+          description: "successful operation"
+          content:
+            application/json:          
+              schema:
+                type: "object"
+                properties:
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        description: "the link that generated the current response document e.g. /v1/organizations/{orgnizationId}"                 
+                  data:          
+                    $ref: "#/components/schemas/Organization"
+        400:
+          $ref: '#/components/responses/InvalidInput'
+        401:
+          $ref: '#/components/responses/UnauthorizedAccess'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/URLNotFound'
+        405:
+          $ref: '#/components/responses/MethodNotAllowed'          
+        408:
+          $ref: '#/components/responses/RequestTimeOut'          
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceNotAvailable'
+    get:
+      tags:
+      - "organization"
+      summary: "Find organization details by org ID"
+      description: ""
+      operationId: "getOrgById"
+      security:
+      - Authorization: []      
+      parameters:
+      - name: "organizationId"
+        in: "path"
+        description: "GUID of the organization that needs to be fetched"
+        required: true
+        schema:
+          type: string
+      - name: include
+        in: query
+        description: this includes the requested object. This suppoorts multiple object as input serperated by comma. eg.  ?include=OrganizationType
+        required: false
+        schema:
+          type: string                    
+      responses:
+        200:
+          description: "successful operation"
+          content:
+            application/json:   
+              schema:
+                type: "object"
+                properties:
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        description: "the link that generated the current response document e.g. /v1/organizations/{orgnizationId}"                 
+                  data:          
+                    $ref: "#/components/schemas/Organization"
+                  included: 
+                    type: array
+                    items: 
+                      allOf:
+                        - $ref: '#/components/schemas/OrganizationType'
+                        - type: object
+                          properties:
+                            links:
+                              type: object
+                              properties:
+                                self:
+                                  type: string
+                                  description: "the link for the organization type list e.g. /v1/organizations/type"
+        400:
+          $ref: '#/components/responses/InvalidInput'
+        401:
+          $ref: '#/components/responses/UnauthorizedAccess'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/URLNotFound'
+        405:
+          $ref: '#/components/responses/MethodNotAllowed'          
+        408:
+          $ref: '#/components/responses/RequestTimeOut'          
+        500:
+          $ref: '#/components/responses/InternalServerError'
+        503:
+          $ref: '#/components/responses/ServiceNotAvailable'
+
+components:
+  schemas:
+    Organization:
+          type: object
+          properties:
+                type: 
+                  type: "string"
+                  description: "Type of the object, here it is 'Organization'"
+                id:
+                  type: "string"
+                  description: "Organization GUID"
+                  readOnly: true
+                attributes:
+                  type: "object"
+                  properties:
+                    name:
+                      type: "string"
+                      description: "name of the organization"
+                relationships:
+                  type: "object"
+                  properties:
+                    OrganizationType:
+                      type: "object"
+                      properties:
+                        links: 
+                          type: object
+                          properties:
+                            self:
+                              type: string
+                            related: 
+                              type: string
+                          readOnly: true
+                        data:
+                          type: "object"
+                          properties: 
+                            id:
+                              type: "string"
+                              description: "organizatino type GUID"
+                            type:
+                              type: string
+                              description: Type of the object, here it is 'OrganizationType'
+    OrganizationType:
+        type: "object"
+        properties:
+              id:
+                type: "string"
+                description: "Organization type GUID"
+              type: 
+                type: "string"
+                description: "Type of the object, here it is 'OrganizationType'"
+              attributes:
+                type: "object"
+                properties:
+                  name:
+                    type: "string"
+                    description: "name of organization type"
+    ErrorResponse:
+         type: "object"
+         properties:
+            jsonapi:
+              type: "object"
+              properties:
+                  version: 
+                    type: "string"
+                    description: "API version eg. 1.0"
+            errors:
+              type: "array"
+              items: 
+                properties:
+                  code:
+                    type: "string"
+                    description: "an application-specific error code"
+                  source:
+                    type: "object"
+                    properties:
+                      pointer: 
+                        type: "string"
+                        description: "a JSON Pointer to the associated entity in the request document [e.g. /data for a primary data object, or /data/attributes/title for a specific attribute]"
+                      parameter: 
+                        type: "string"
+                        description: "a string indicating which URI query parameter caused the error."
+                  title:
+                    type: "string"
+                    description: "a short, human-readable summary of the problem"
+                  detail:
+                    type: "string"
+                    description: "a human-readable explanation specific to this occurrence of the problem. "
+  responses:
+        InvalidInput:
+          description: ' Bad Request - The parameters provided were invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'  
+        UnauthorizedAccess:
+          description: ' Unauthorized Access - The user is not authenticated'
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Unauthorized Access
+        Forbidden:
+          description: ' Forbidden - The user does not have permissions to access this resource'
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Forbidden
+        URLNotFound:
+          description: ' URL not found - The URL user is trying to reach cannot be found'
+          content:
+            application/json:
+              schema:
+                type: string
+                description: URL not found
+        InternalServerError:
+          description: ' Internal server error - The server encountered an unexpected condition that prevented it from fulfilling the request'
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Internal server error
+        ServiceNotAvailable:
+          description: ' Service is unavailable - The requested service is down or overloaded and cannot handle the request'
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Service is unavailable
+        RequestTimeOut:
+          description: "Request timeout"
+          content:
+            application/json:
+              schema:
+                 type: "string"
+                 description: "Request timeout"  
+        MethodNotAllowed:
+          description: "Method not allowed"
+          content:
+            application/json:
+              schema:
+                 type: "string"
+                 description: "Method not allowed"                                             
+  securitySchemes:
+    authorizationService:
+      type: oauth2
+      description: This API uses OAuth 2 with the auhtorizationCode grant flow.
+      flows:
+        authorizationCode:
+           tokenUrl: https://auth.service./oauth2/token # placeholder urls till auth service is created
+           authorizationUrl: https://auth.service/oauth2/authorize 

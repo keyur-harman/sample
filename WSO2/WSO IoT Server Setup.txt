@@ -1,0 +1,45 @@
+WSO2 IoT Server
+
+Download the binaries for WSO2 IoT Server
+UnZip the zip
+
+Install JDK
+sudo apt install openjdk-8-jdk
+
+Update/Set Environment Variables
+edit /etc/environment to set JAVA_HOME variable
+JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+and also edit the PATH to reflect to have ${JAVA_HOME}/bin:${PATH}
+
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+export PATH=${JAVA_HOME}/bin:${PATH}
+
+Follow the steps in the following URL to enable access from non-localhost URL
+https://docs.wso2.com/display/IOTS330/Configuring+the+IP+or+Hostname
+
+To start the server
+cd <IOTS_HOME>/bin
+./broker.sh
+
+cd <IOTS_HOME>/bin
+./iot-server.sh
+
+cd <IOTS_HOME>/bin
+./analytics.sh
+
+
+The server will be available on the following interfaces
+http://10.55.76.48:9763/devicemgt
+http://10.55.76.48:9763/carbon
+http://10.55.76.48:9763/portal
+
+https://10.55.76.48:9443/carbon/
+https://10.55.76.48:9443/devicemgt
+https://10.55.76.48:9443/portal
+
+
+
+
+ AMQP server on port 5675
+  MQTT server on port 1886
+  
