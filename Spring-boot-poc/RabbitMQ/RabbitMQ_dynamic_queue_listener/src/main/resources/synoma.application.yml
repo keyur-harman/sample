@@ -1,0 +1,125 @@
+# <+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+>
+--- # PROD <+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+>
+# <+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+>
+
+# =====[ Spring ]========================================================================
+spring:
+  profiles:
+    active: default
+  resources:
+    cache:
+      cachecontrol:
+        cache-private: true
+        must-revalidate: true
+        max-age: 31536000
+  jmx:
+    enabled: false
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/c6-synoma-plugin"
+    platform: postgres
+    username: esource
+    password: esource
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: false
+        use_sql_comments: false
+        format_sql: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  thymeleaf:
+    cache: false
+    check-template: true
+    check-template-location: true
+    servlet:
+      content-type: text/html
+    enabled: true
+    encoding: UTF-8
+    mode: HTML
+  jackson:
+    default-property-inclusion: NON_NULL
+  output:
+    ansi:
+      enabled: always
+
+# =====[ Embedded Tomcat Configuration ]=================================================
+server:
+  port: 8180
+  servlet:
+    contextPath: /c6-synoma-plugin
+
+# =====[ Application Configuration ]=====================================================
+esource:
+  toolkit:
+    host: esource.nextrials.com
+    secure: true
+    port: 443
+    contextPath: /esource-toolkit
+  plugin:
+    maxRetries: 3
+    host: esource.nextrials.com
+    secure: true
+    port: 443
+    contextPath: /c6-synoma-plugin
+
+mrfd:
+  formUrl: http://esource.nextrials.com/mrfd/form/session
+  patientUrl: mrfd/patient.html
+  oauthRedirect: http://esource.nextrials.com/mrfd/redirect
+  # =====[ FHIR Scopes ]=================================================================
+  scopes:
+    - launch
+    - patient/Patient.read
+    - patient/MedicationOrder.read
+    - patient/Condition.read
+  # =====[ EHRs ]========================================================================
+  ehrs:
+    - name: Cerner
+      urlPath: cerner
+      clientId: 1f42436c-4c30-4cd7-b404-362c53997ade
+    - name: Epic
+      urlPath: epic
+      clientId: 6c12dff4-24e7-4475-a742-b08972c4ea27
+    - name: SMART
+      urlPath: smart
+      clientId: 1234567890-1234567890-1234567890
+
+# =====[ Spring Boot Actuator ]=====================================================================
+management.endpoints.web.exposure.include: '*'
+
+
+# <+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+>
+--- # DEV  <+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+>
+# <+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+>
+
+# =====[ Spring ]========================================================================
+spring:
+  profiles: dev
+
+# =====[ Application Configuration ]=====================================================
+esource:
+  toolkit:
+    host: localhost
+    secure: false
+    port: 8888
+    contextPath: /esource-toolkit
+  plugin:
+    host: localhost
+    secure: false
+    port: 8180
+
+# =====[ Plugin Configuration ]=============================================================
+plugin:
+  synoma:
+    base-url: 'http://localhost:8181'
+
+# =====[ IHE Configuration ]=============================================================

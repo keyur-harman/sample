@@ -1,0 +1,28 @@
+# <+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+>
+--- # PROD <+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+>
+# <+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+><+>
+
+# =====[ Spring ]========================================================================
+spring:
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+    port: 5672
+    vhost: /
+     
+# =====[ general plugin Configuration ]=================================================
+profileName: pra
+queue: general.plugin
+topicExchange: general.plugin.topic.exchange
+fanoutExchange: general.plugin.fanout.exchange
+shouldHandleRetries: true
+retryDelay: 10000
+# =====[ Embedded Tomcat Configuration ]=================================================
+server:
+  port: 8180
+  servlet:
+    contextPath: /general-plugin
+
+# =====[ Spring Boot Actuator ]=====================================================================
+management.endpoints.web.exposure.include: '*'
