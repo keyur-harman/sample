@@ -1,0 +1,6 @@
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: com.demo.osgi.client
+Bundle-Name: osgi-service-client
+Bundle-Version: 0.0.1-SNAPSHOT
+Bundle-Activator: com.demo.osgi.client.Client
+Import-Package: org.osgi.framework
