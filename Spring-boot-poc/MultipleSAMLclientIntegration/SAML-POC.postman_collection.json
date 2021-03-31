@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "1ae2f698-8f4c-45f5-89c1-da5e82fdf6c5",
+		"name": "SAML-POC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://localhost:8443/addMetaDataURL",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"metaDataURL\": \"https://dev-93983019.okta.com/app/exkc8irbp6R7JerNH5d6/sso/saml/metadata\",\r\n    \"defaultIdp\":\"http://www.okta.com/exkcgt4y6b07x2Mi85d6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8443/addMetaDataURL",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"addMetaDataURL"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8443/removeMetaDataURL",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"metaDataURL\":\"https://dev-93983019.okta.com/app/exkc8irbp6R7JerNH5d6/sso/saml/metadata\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8443/removeMetaDataURL",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"removeMetaDataURL"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:8443/checkMetaData",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/checkMetaData",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"checkMetaData"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
